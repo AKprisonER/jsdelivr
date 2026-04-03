@@ -1,42 +1,39 @@
-!function(){var _0x4a=["file:","localhost","127.0.0.1","contextmenu","preventDefault","keydown","keyCode","ctrlKey","shiftKey","metaKey","body","innerHTML","protocol","hostname","referrer","yourdomain.github.io"];
+!function(){
 
-// 1. Block local access
-var _0xl=window.location;
-if(_0xl[_0x4a[12]]===_0x4a[0]||_0xl[_0x4a[13]]===_0x4a[1]||_0xl[_0x4a[13]]===_0x4a[2]){
-document.addEventListener("DOMContentLoaded",function(){
-document[_0x4a[10]][_0x4a[11]]="<div style='text-align:center;margin-top:20vh;font-family:sans-serif;font-size:24px;color:red;'>\u26D4 Access Denied. Open via web server only.</div>";
-});
-}
+  // 1. Disable right-click
+  document.addEventListener('contextmenu',function(e){e.preventDefault();});
 
-// 2. Block wrong domain (referrer check)
-// ⚠️ Replace yourdomain.github.io below with your actual GitHub Pages domain
-if(document[_0x4a[14]]&&document[_0x4a[14]]!==''&&document[_0x4a[14]].indexOf(_0x4a[15])===-1){
-document.addEventListener("DOMContentLoaded",function(){
-document[_0x4a[10]][_0x4a[11]]="<div style='text-align:center;margin-top:20vh;font-family:sans-serif;font-size:24px;color:red;'>\u26D4 Unauthorized.</div>";
-});
-}
+  // 2. Block F12, Ctrl+Shift+I/J, Ctrl+U, Cmd+U
+  document.addEventListener('keydown',function(e){
+    var k=e.keyCode,c=e.ctrlKey,s=e.shiftKey,m=e.metaKey;
+    if(k===123||(c&&s&&k===73)||(c&&s&&k===74)||(c&&k===85)||(m&&k===85)||(m&&s&&k===85)){
+      e.preventDefault();return false;
+    }
+  });
 
-// 3. Disable right-click
-document.addEventListener(_0x4a[3],function(_0xe){_0xe[_0x4a[4]]();});
+  // 3. Block local access + devtools — run immediately if DOM ready, else wait
+  function _run(){
 
-// 4. Block F12, Ctrl+Shift+I/J, Ctrl+U, Cmd+U, Cmd+Option+U
-document.addEventListener(_0x4a[5],function(_0xe){
-var _0xk=_0xe[_0x4a[6]],_0xc=_0xe[_0x4a[7]],_0xs=_0xe[_0x4a[8]],_0xm=_0xe[_0x4a[9]];
-if(
-_0xk===123||
-(_0xc&&_0xs&&_0xk===73)||
-(_0xc&&_0xs&&_0xk===74)||
-(_0xc&&_0xk===85)||
-(_0xm&&_0xk===85)||
-(_0xm&&_0xs&&_0xk===85)
-){_0xe[_0x4a[4]]();return false;}
-});
+    // Local access block
+    var _l=window.location;
+    if(_l.protocol==='file:'||_l.hostname==='localhost'||_l.hostname==='127.0.0.1'){
+      document.body.innerHTML="<div style='text-align:center;margin-top:20vh;font-family:sans-serif;font-size:24px;color:red;'>&#9940; Access Denied.</div>";
+      return;
+    }
 
-// 5. DevTools window size detection
-setInterval(function(){
-if(window.outerWidth-window.innerWidth>160||window.outerHeight-window.innerHeight>160){
-document[_0x4a[10]][_0x4a[11]]="<div style='text-align:center;margin-top:20vh;font-family:sans-serif;font-size:24px;'>\uD83D\uDEAB DevTools Detected.</div>";
-}
-},1000);
+    // DevTools size detection
+    setInterval(function(){
+      if(window.outerWidth-window.innerWidth>160||window.outerHeight-window.innerHeight>160){
+        document.body.innerHTML="<div style='text-align:center;margin-top:20vh;font-family:sans-serif;font-size:24px;'>&#128683; DevTools Detected.</div>";
+      }
+    },1000);
+  }
+
+  // DOM already loaded? Run now. Else wait.
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',_run);
+  } else {
+    _run();
+  }
 
 }();
