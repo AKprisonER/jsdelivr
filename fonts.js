@@ -27,6 +27,7 @@
           sessionStorage.setItem('__auth','yes');
           sessionStorage.setItem('__exp', Date.now()+(30*60*1000)); // 30 min expiry
           _ov.remove();
+          
           Array.from(document.body.children).forEach(function(el){el.style.display='';});
         } else {
           document.getElementById('__err').style.display='block';
