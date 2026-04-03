@@ -12,8 +12,6 @@
       document.body.innerHTML="<div style='text-align:center;margin-top:20vh;font-family:sans-serif;font-size:24px;color:red;'>&#9940; Access Denied.</div>";
       return;
     }
-
-    // Password gate
     if(sessionStorage.getItem('__auth')!=='yes'){
       document.body.style.display='none';
       var _ov=document.createElement('div');
@@ -23,7 +21,6 @@
       document.body.style.display='block';
       Array.from(document.body.children).forEach(function(el){if(el!==_ov)el.style.display='none';});
       function _check(){
-        
         if(document.getElementById('__pin').value==='0mistakebefast'){
           sessionStorage.setItem('__auth','yes');
           _ov.remove();
@@ -35,7 +32,6 @@
       document.getElementById('__btn').addEventListener('click',_check);
       document.getElementById('__pin').addEventListener('keydown',function(e){if(e.keyCode===13)_check();});
     }
-
     setInterval(function(){
       if(window.outerWidth-window.innerWidth>160||window.outerHeight-window.innerHeight>160){
         document.body.innerHTML="<div style='text-align:center;margin-top:20vh;font-family:sans-serif;font-size:24px;'>&#128683; DevTools Detected.</div>";
@@ -48,4 +44,3 @@
     _run();
   }
 }();
-window.__ok=true;
