@@ -12,7 +12,9 @@
       document.body.innerHTML="<div style='text-align:center;margin-top:20vh;font-family:sans-serif;font-size:24px;color:red;'>&#9940; Access Denied.</div>";
       return;
     }
-    if(sessionStorage.getItem('__auth')!=='yes'){
+    var _auth=sessionStorage.getItem('__auth');
+    var _exp=sessionStorage.getItem('__exp');
+    if(_auth!=='yes'||!_exp||Date.now()>parseInt(_exp)){
       document.body.style.display='none';
       var _ov=document.createElement('div');
       _ov.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;display:flex;align-items:center;justify-content:center;z-index:999999;font-family:sans-serif;';
@@ -23,6 +25,7 @@
       function _check(){
         if(document.getElementById('__pin').value==='0mistakebefast'){
           sessionStorage.setItem('__auth','yes');
+          sessionStorage.setItem('__exp', Date.now()+(30*60*1000)); // 30 min expiry
           _ov.remove();
           Array.from(document.body.children).forEach(function(el){el.style.display='';});
         } else {
